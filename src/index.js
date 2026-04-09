@@ -1,20 +1,42 @@
 const app = document.getElementById("app");
 
 app.innerHTML = `
-  <h1>Affichage du texte saisi</h1>
-  <div style="display: flex; align-items: center; gap: 12px;">
-    <input id="text-input" type="text" placeholder="Ecris quelque chose" />
-    <span id="text-output"></span>
-  </div>
-  <p id="empty-message" style="margin-top: 8px; color: #b42318;">Le champ est vide.</p>
-  <div style="margin-top: 16px; display: flex; align-items: center; gap: 12px;">
-    <button id="increment-btn" type="button">Increment</button>
-    <button id="decrement-btn" type="button">Decrement</button>
-    <button id="increment-five-btn" type="button">+5</button>
-    <button id="decrement-five-btn" type="button">-5</button>
-    <button id="reset-btn" type="button">Reset</button>
-    <span id="count-value">0</span>
-  </div>
+  <main class="page-shell">
+    <section class="hero card">
+      <p class="eyebrow">Vanilla JS playground</p>
+      <h1>Affichage du texte saisi</h1>
+      <p class="hero-copy">Un petit espace interactif pour tester la saisie, les boutons et la persistance locale.</p>
+    </section>
+
+    <section class="card panel">
+      <div class="field-group">
+        <label class="field-label" for="text-input">Texte saisi</label>
+        <div class="input-row">
+          <input id="text-input" class="text-input" type="text" placeholder="Ecris quelque chose" />
+          <span id="text-output" class="live-value"></span>
+        </div>
+        <p id="empty-message" class="helper-text">Le champ est vide.</p>
+      </div>
+
+      <div class="counter-block">
+        <div class="counter-header">
+          <div>
+            <p class="field-label">Compteur</p>
+            <p class="helper-text">Le compteur reste au minimum a 0.</p>
+          </div>
+          <span id="count-value" class="count-badge">0</span>
+        </div>
+
+        <div class="button-grid">
+          <button id="increment-btn" type="button">Increment</button>
+          <button id="decrement-btn" type="button">Decrement</button>
+          <button id="increment-five-btn" type="button">+5</button>
+          <button id="decrement-five-btn" type="button">-5</button>
+          <button id="reset-btn" type="button" class="button-secondary">Reset</button>
+        </div>
+      </div>
+    </section>
+  </main>
 `;
 
 const textInput = document.getElementById("text-input");
