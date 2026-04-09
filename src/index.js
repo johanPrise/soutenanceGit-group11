@@ -70,6 +70,10 @@ incrementBtn.addEventListener("click", () => {
 });
 
 decrementBtn.addEventListener("click", () => {
+  if (count === 0) {
+    return;
+  }
+
   count -= 1;
   updateCountDisplay();
   persistCount();
