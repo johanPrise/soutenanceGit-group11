@@ -1,0 +1,28 @@
+{
+  "name": "rendu",
+  "version": "1.0.0",
+  "description": "dfsdfffffffffffffffffff",
+  "homepage": "https://github.com/johanPrise/soutenanceGit-group11#readme",
+  "bugs": {
+    "url": "https://github.com/johanPrise/soutenanceGit-group11/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johanPrise/soutenanceGit-group11.git"
+  },
+  "license": "ISC",
+  "author": "koba/johan",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "eslint": "^9.39.4",
+    "globals": "^17.4.0",
+    "husky": "^9.1.7"
+  }
+}

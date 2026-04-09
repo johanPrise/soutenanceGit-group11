@@ -1,0 +1,33 @@
+name: Feature request
+description: Proposer une amelioration
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: Merci de decrire la fonctionnalite proposee.
+  - type: input
+    id: summary
+    attributes:
+      label: Resume
+      placeholder: Description courte de la fonctionnalite
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Probleme a resoudre
+      placeholder: Quel est le besoin actuel ?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Solution proposee
+      placeholder: Comment veux-tu resoudre ce probleme ?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considerees
+      placeholder: Solutions alternatives eventuelles
