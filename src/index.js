@@ -23,8 +23,11 @@ const decrementBtn = document.getElementById("decrement-btn");
 const resetBtn = document.getElementById("reset-btn");
 const countValue = document.getElementById("count-value");
 const inputStorageKey = "savedInputValue";
+const countStorageKey = "savedCountValue";
 
-let count = 0;
+const savedCountValue = localStorage.getItem(countStorageKey);
+const parsedCount = Number(savedCountValue);
+let count = Number.isFinite(parsedCount) ? parsedCount : 0;
 
 const updateInputDisplay = (value) => {
   const trimmedValue = value.trim();
@@ -34,9 +37,18 @@ const updateInputDisplay = (value) => {
   emptyMessage.textContent = hasValue ? "" : "Le champ est vide.";
 };
 
+const updateCountDisplay = () => {
+  countValue.textContent = String(count);
+};
+
+const persistCount = () => {
+  localStorage.setItem(countStorageKey, String(count));
+};
+
 const savedInputValue = localStorage.getItem(inputStorageKey) ?? "";
 textInput.value = savedInputValue;
 updateInputDisplay(savedInputValue);
+updateCountDisplay();
 
 textInput.addEventListener("input", (event) => {
   const value = event.target.value;
@@ -53,15 +65,18 @@ textInput.addEventListener("input", (event) => {
 
 incrementBtn.addEventListener("click", () => {
   count += 1;
-  countValue.textContent = String(count);
+  updateCountDisplay();
+  persistCount();
 });
 
 decrementBtn.addEventListener("click", () => {
   count -= 1;
-  countValue.textContent = String(count);
+  updateCountDisplay();
+  persistCount();
 });
 
 resetBtn.addEventListener("click", () => {
   count = 0;
-  countValue.textContent = String(count);
+  updateCountDisplay();
+  persistCount();
 });
