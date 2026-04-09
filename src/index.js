@@ -10,6 +10,8 @@ app.innerHTML = `
   <div style="margin-top: 16px; display: flex; align-items: center; gap: 12px;">
     <button id="increment-btn" type="button">Increment</button>
     <button id="decrement-btn" type="button">Decrement</button>
+    <button id="increment-five-btn" type="button">+5</button>
+    <button id="decrement-five-btn" type="button">-5</button>
     <button id="reset-btn" type="button">Reset</button>
     <span id="count-value">0</span>
   </div>
@@ -20,6 +22,8 @@ const textOutput = document.getElementById("text-output");
 const emptyMessage = document.getElementById("empty-message");
 const incrementBtn = document.getElementById("increment-btn");
 const decrementBtn = document.getElementById("decrement-btn");
+const incrementFiveBtn = document.getElementById("increment-five-btn");
+const decrementFiveBtn = document.getElementById("decrement-five-btn");
 const resetBtn = document.getElementById("reset-btn");
 const countValue = document.getElementById("count-value");
 const inputStorageKey = "savedInputValue";
@@ -45,6 +49,12 @@ const persistCount = () => {
   localStorage.setItem(countStorageKey, String(count));
 };
 
+const updateCount = (delta) => {
+  count = Math.max(0, count + delta);
+  updateCountDisplay();
+  persistCount();
+};
+
 const savedInputValue = localStorage.getItem(inputStorageKey) ?? "";
 textInput.value = savedInputValue;
 updateInputDisplay(savedInputValue);
@@ -64,19 +74,19 @@ textInput.addEventListener("input", (event) => {
 });
 
 incrementBtn.addEventListener("click", () => {
-  count += 1;
-  updateCountDisplay();
-  persistCount();
+  updateCount(1);
 });
 
 decrementBtn.addEventListener("click", () => {
-  if (count === 0) {
-    return;
-  }
+  updateCount(-1);
+});
 
-  count -= 1;
-  updateCountDisplay();
-  persistCount();
+incrementFiveBtn.addEventListener("click", () => {
+  updateCount(5);
+});
+
+decrementFiveBtn.addEventListener("click", () => {
+  updateCount(-5);
 });
 
 resetBtn.addEventListener("click", () => {
