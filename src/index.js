@@ -22,15 +22,33 @@ const incrementBtn = document.getElementById("increment-btn");
 const decrementBtn = document.getElementById("decrement-btn");
 const resetBtn = document.getElementById("reset-btn");
 const countValue = document.getElementById("count-value");
+const inputStorageKey = "savedInputValue";
 
 let count = 0;
 
+const updateInputDisplay = (value) => {
+  const trimmedValue = value.trim();
+  const hasValue = trimmedValue.length > 0;
+
+  textOutput.textContent = hasValue ? trimmedValue : "";
+  emptyMessage.textContent = hasValue ? "" : "Le champ est vide.";
+};
+
+const savedInputValue = localStorage.getItem(inputStorageKey) ?? "";
+textInput.value = savedInputValue;
+updateInputDisplay(savedInputValue);
+
 textInput.addEventListener("input", (event) => {
-  const value = event.target.value.trim();
+  const value = event.target.value;
   const hasValue = value.length > 0;
 
-  textOutput.textContent = hasValue ? value : "";
-  emptyMessage.textContent = hasValue ? "" : "Le champ est vide.";
+  if (hasValue) {
+    localStorage.setItem(inputStorageKey, value);
+  } else {
+    localStorage.removeItem(inputStorageKey);
+  }
+
+  updateInputDisplay(value);
 });
 
 incrementBtn.addEventListener("click", () => {
