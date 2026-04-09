@@ -26,12 +26,69 @@ const incrementFiveBtn = document.getElementById("increment-five-btn");
 const decrementFiveBtn = document.getElementById("decrement-five-btn");
 const resetBtn = document.getElementById("reset-btn");
 const countValue = document.getElementById("count-value");
-const inputStorageKey = "savedInputValue";
-const countStorageKey = "savedCountValue";
+const stateStorageKey = "savedCounterAppStateV2";
+const legacyInputStorageKey = "savedInputValue";
+const legacyCountStorageKey = "savedCountValue";
 
-const savedCountValue = localStorage.getItem(countStorageKey);
-const parsedCount = Number(savedCountValue);
-let count = Number.isFinite(parsedCount) ? parsedCount : 0;
+const toSafeCount = (value) => {
+  const parsed = Number(value);
+
+  if (!Number.isFinite(parsed)) {
+    return 0;
+  }
+
+  return Math.max(0, Math.trunc(parsed));
+};
+
+const parsePersistedState = (rawState) => {
+  if (!rawState) {
+    return null;
+  }
+
+  try {
+    const parsedState = JSON.parse(rawState);
+
+    if (!parsedState || typeof parsedState !== "object") {
+      return null;
+    }
+
+    return {
+      inputValue:
+        typeof parsedState.inputValue === "string" ? parsedState.inputValue : "",
+      countValue: toSafeCount(parsedState.countValue),
+    };
+  } catch {
+    return null;
+  }
+};
+
+const loadInitialState = () => {
+  const persistedState = parsePersistedState(localStorage.getItem(stateStorageKey));
+
+  if (persistedState) {
+    return persistedState;
+  }
+
+  return {
+    inputValue: localStorage.getItem(legacyInputStorageKey) ?? "",
+    countValue: toSafeCount(localStorage.getItem(legacyCountStorageKey)),
+  };
+};
+
+const persistState = (inputValue, countNumber) => {
+  const nextState = {
+    inputValue,
+    countValue: toSafeCount(countNumber),
+    updatedAt: Date.now(),
+  };
+
+  localStorage.setItem(stateStorageKey, JSON.stringify(nextState));
+  localStorage.setItem(legacyInputStorageKey, inputValue);
+  localStorage.setItem(legacyCountStorageKey, String(nextState.countValue));
+};
+
+const initialState = loadInitialState();
+let count = initialState.countValue;
 
 const updateInputDisplay = (value) => {
   const trimmedValue = value.trim();
@@ -45,32 +102,22 @@ const updateCountDisplay = () => {
   countValue.textContent = String(count);
 };
 
-const persistCount = () => {
-  localStorage.setItem(countStorageKey, String(count));
-};
-
 const updateCount = (delta) => {
   count = Math.max(0, count + delta);
   updateCountDisplay();
-  persistCount();
+  persistState(textInput.value, count);
 };
 
-const savedInputValue = localStorage.getItem(inputStorageKey) ?? "";
-textInput.value = savedInputValue;
-updateInputDisplay(savedInputValue);
+textInput.value = initialState.inputValue;
+updateInputDisplay(initialState.inputValue);
 updateCountDisplay();
+persistState(textInput.value, count);
 
 textInput.addEventListener("input", (event) => {
   const value = event.target.value;
-  const hasValue = value.length > 0;
-
-  if (hasValue) {
-    localStorage.setItem(inputStorageKey, value);
-  } else {
-    localStorage.removeItem(inputStorageKey);
-  }
 
   updateInputDisplay(value);
+  persistState(value, count);
 });
 
 incrementBtn.addEventListener("click", () => {
@@ -92,5 +139,22 @@ decrementFiveBtn.addEventListener("click", () => {
 resetBtn.addEventListener("click", () => {
   count = 0;
   updateCountDisplay();
-  persistCount();
+  persistState(textInput.value, count);
+});
+
+window.addEventListener("storage", (event) => {
+  if (event.key !== stateStorageKey || event.newValue === null) {
+    return;
+  }
+
+  const nextState = parsePersistedState(event.newValue);
+
+  if (!nextState) {
+    return;
+  }
+
+  count = nextState.countValue;
+  textInput.value = nextState.inputValue;
+  updateInputDisplay(nextState.inputValue);
+  updateCountDisplay();
 });
