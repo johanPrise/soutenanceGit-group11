@@ -1,12 +1,37 @@
-document.getElementById('app').innerHTML = `
-  <h1>Hello World!</h1>
-  <p>Welcome to your Vanilla JS app.</p>
-  <p>Start editing to see some magic happen :)</p>
+const app = document.getElementById("app");
+
+app.innerHTML = `
+  <h1>Affichage du texte saisi</h1>
+  <div style="display: flex; align-items: center; gap: 12px;">
+    <input id="text-input" type="text" placeholder="Ecris quelque chose" />
+    <span id="text-output"></span>
+  </div>
+  <div style="margin-top: 16px; display: flex; align-items: center; gap: 12px;">
+    <button id="increment-btn" type="button">Increment</button>
+    <button id="decrement-btn" type="button">Decrement</button>
+    <span id="count-value">0</span>
+  </div>
 `;
 
-const a = 1;
-const b = 2;
-const c = a + b;
-console.log(c);
+const textInput = document.getElementById("text-input");
+const textOutput = document.getElementById("text-output");
+const incrementBtn = document.getElementById("increment-btn");
+const decrementBtn = document.getElementById("decrement-");
+const countValue = document.getElementById("count-value");
 
-alert('Hello, World!');
+let count = 0;
+
+textInput.addEventListener("input", (event) => {
+  const value = event.target.value.trim();
+  textOutput.textContent = value ? value : "";
+});
+
+incrementBtn.addEventListener("click", () => {
+  count += 1;
+  countValue.textContent = String(count);
+});
+
+decrementBtn.addEventListener("click", () => {
+  count -= 1;
+  countValue.textContent = String(count);
+});
