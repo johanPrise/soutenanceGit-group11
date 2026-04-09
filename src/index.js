@@ -8,6 +8,7 @@ app.innerHTML = `
   </div>
   <div style="margin-top: 16px; display: flex; align-items: center; gap: 12px;">
     <button id="increment-btn" type="button">Increment</button>
+    <button id="decrement-btn" type="button">Decrement</button>
     <span id="count-value">0</span>
   </div>
 `;
@@ -15,6 +16,7 @@ app.innerHTML = `
 const textInput = document.getElementById("text-input");
 const textOutput = document.getElementById("text-output");
 const incrementBtn = document.getElementById("increment-btn");
+const decrementBtn = document.getElementById("decrement-");
 const countValue = document.getElementById("count-value");
 
 let count = 0;
@@ -26,5 +28,10 @@ textInput.addEventListener("input", (event) => {
 
 incrementBtn.addEventListener("click", () => {
   count += 1;
+  countValue.textContent = String(count);
+});
+
+decrementBtn.addEventListener("click", () => {
+  count -= 1;
   countValue.textContent = String(count);
 });
