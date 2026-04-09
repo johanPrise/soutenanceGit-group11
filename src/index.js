@@ -6,6 +6,7 @@ app.innerHTML = `
     <input id="text-input" type="text" placeholder="Ecris quelque chose" />
     <span id="text-output"></span>
   </div>
+  <p id="empty-message" style="margin-top: 8px; color: #b42318;">Le champ est vide.</p>
   <div style="margin-top: 16px; display: flex; align-items: center; gap: 12px;">
     <button id="increment-btn" type="button">Increment</button>
     <button id="decrement-btn" type="button">Decrement</button>
@@ -16,6 +17,7 @@ app.innerHTML = `
 
 const textInput = document.getElementById("text-input");
 const textOutput = document.getElementById("text-output");
+const emptyMessage = document.getElementById("empty-message");
 const incrementBtn = document.getElementById("increment-btn");
 const decrementBtn = document.getElementById("decrement-btn");
 const resetBtn = document.getElementById("reset-btn");
@@ -25,7 +27,10 @@ let count = 0;
 
 textInput.addEventListener("input", (event) => {
   const value = event.target.value.trim();
-  textOutput.textContent = value ? value : "";
+  const hasValue = value.length > 0;
+
+  textOutput.textContent = hasValue ? value : "";
+  emptyMessage.textContent = hasValue ? "" : "Le champ est vide.";
 });
 
 incrementBtn.addEventListener("click", () => {
