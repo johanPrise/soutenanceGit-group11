@@ -16,7 +16,7 @@ app.innerHTML = `
 const textInput = document.getElementById("text-input");
 const textOutput = document.getElementById("text-output");
 const incrementBtn = document.getElementById("increment-btn");
-const decrementBtn = document.getElementById("decrement-");
+const decrementBtn = document.getElementById("decrement-btn");
 const countValue = document.getElementById("count-value");
 
 let count = 0;
